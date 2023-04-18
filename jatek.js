@@ -1,5 +1,5 @@
 const gameBoard = document.querySelector('#game-board');
-const colors = ['red', 'green', 'blue', 'yellow', 'orange'];
+const colors = ['red', 'green', 'blue', 'yellow'];
 const numRows = 10;
 const numCols = 10;
 let score = 0;
@@ -87,7 +87,7 @@ function addRowTime(){
 scoreTable.textContent = score;
 levelText.textContent = level;
 function createBoard() {
-
+    board = [];
   for (let i = 0; i < numRows; i++) {
     let row = [];
     for (let j = 0; j < numCols; j++) {
@@ -156,6 +156,7 @@ function getCellsToRemove(row, col, color, visited) {
 function addRow() {
   for (let i = 0; i < numCols; i++) {
     let cell = board[0][i];
+    console.log(cell.style.backgroundColor);
     if (cell.style.backgroundColor !== 'white') {
         console.log("bajok vannak");
       endGame();
@@ -178,11 +179,7 @@ function addRow() {
   }
 }
 
-//createBoard();
 gameBoard.addEventListener('click', handleClick);
 startButton.addEventListener('click', onClickStart);
 tryAgainButton.addEventListener('click', onClickTryAgain);
 
-/*interval = setInterval(addRow, addRowTime());
-dropCellInterval = setInterval(dropCells, 600);
-levelInterval = setInterval(addRowTime, 20000 );*/
