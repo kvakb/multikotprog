@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Crash Down</title>
+  <meta charset="UTF-8">
+  <style>
+    #game-board {
+      text-align: center;
+      display: grid;
+      grid-template-columns: repeat(10, 50px);
+      grid-template-rows: repeat(10, 50px);
+    }
+    .cell {
+      width: 50px;
+      height: 50px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+<h1>Crash Down</h1>
+<h2 id="scoreTable"></h2>
+<h2 id="time"></h2>
+<div id="game-board"></div>
+
+<div id="menu">
+  <button id="startButton">Start</button>
+  <button id="restartButton">Restart</button>
+</div>
+
+<script src="jatek.js"></script>
+</body>
+</html>
