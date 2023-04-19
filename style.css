@@ -1,0 +1,104 @@
+body {
+    background-color: #F2F2F2;
+    font-family: Arial, sans-serif;
+}
+#gameScreen {
+    margin: 0 auto;
+    max-width: 600px;
+    text-align: center;
+}
+#scoreTable, #level, #time {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(10, 50px);
+    grid-template-rows: repeat(10, 50px);
+    margin: 0 auto;
+    margin-top: 30px;
+    width: 500px;
+}
+.cell {
+    background-color: #FFF;
+    border: 1px solid black;
+    height: 50px;
+    width: 50px;
+}
+#game-over {
+    background-color: #FFF;
+    border-radius: 5px;
+    margin: 0 auto;
+    margin-top: 30px;
+    max-width: 500px;
+    padding: 20px;
+    text-align: center;
+    display: none;
+}
+#game-over h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+#tryAgainButton {
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 24px;
+    margin-top: 20px;
+    padding: 10px 20px;
+}
+#tryAgainButton:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+#startGameScreen {
+    margin: 0 auto;
+    max-width: 500px;
+    padding-top: 100px;
+    text-align: center;
+}
+#startGameScreen h1 {
+    font-size: 72px;
+    margin-bottom: 50px;
+}
+#startButton {
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 36px;
+    margin-right: 20px;
+    padding: 10px 40px;
+}
+#startButton:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+button {
+    background-color: #FFF;
+    border: 2px solid #4CAF50;
+    border-radius: 5px;
+    color: #4CAF50;
+    font-size: 24px;
+    padding: 10px 20px;
+}
+button:hover {
+    background-color: #4CAF50;
+    color: #FFF;
+    cursor: pointer;
+}
+
+#toplistaButton{
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 36px;
+    margin-right: 20px;
+    padding: 10px 40px;
+}
+#toplistaButton:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}

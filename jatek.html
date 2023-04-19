@@ -16,17 +16,28 @@
       border: 1px solid black;
     }
   </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Crash Down</h1>
-<h2 id="scoreTable"></h2>
-<h2 id="time"></h2>
-<div id="game-board"></div>
-
-<div id="menu">
-  <button id="startButton">Start</button>
-  <button id="restartButton">Restart</button>
+<div id="gameScreen">
+  <h2 id="scoreTable"></h2>
+  <h2 id="level"></h2>
+  <h2 id="time"></h2>
+  <div id="game-board"></div>
 </div>
+
+<div id="game-over">
+  <h2>Your Score</h2>
+  <h2>Your Time</h2>
+  <button id="tryAgainButton">Try again</button>
+</div>
+
+<div id="startGameScreen">
+  <h1>CrashDown</h1>
+  <button id="startButton">Start</button>
+  <button id="toplistaButton">Toplista</button>
+</div>
+
 
 <script src="jatek.js"></script>
 </body>

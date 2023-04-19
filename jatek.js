@@ -4,44 +4,90 @@ const numRows = 10;
 const numCols = 10;
 let score = 0;
 let board = [];
-let gameStarted = false;
+let addRowTimer = 3000;
+let elapsedTime;
 let scoreTable = document.getElementById("scoreTable");
-document.getElementById('time').innerHTML = `Az eltelt idő: 0 másodperc`;
+let levelText = document.getElementById("level");
+let gameOverScreen = document.getElementById("game-over");
+let startGameScreen = document.getElementById("startGameScreen");
+let gameScreen = document.getElementById("gameScreen");
+let startButton = document.getElementById("startButton");
+let tryAgainButton = document.getElementById("tryAgainButton");
+let level = 0;
+let startTime = Date.now();
+
+let interval;
+let levelInterval;
+let dropCellInterval;
+
+
 
 let success  = new Audio("click2.mp3");
 
 
+gameOverScreen.style.display = "none";
+gameScreen.style.display = "none";
+startGameScreen.style.display = "block";
 
-const startButton = document.getElementById("startButton");
-startButton.addEventListener("click", startGame);
+function onClickStart() {
+    startGame();
 
-const restartButton = document.getElementById("restartButton");
-restartButton.addEventListener("click", restartGame);
-
-function startGame() {
-    gameStarted = true;
-    let startTime = Date.now();
-    let timer = setInterval(function() {
-        let elapsedTime = Date.now() - startTime;
-        document.getElementById('time').innerHTML = `Az eltelt idő: ${elapsedTime / 1000} másodperc`;
-    }, 1000);
-    interval = setInterval(addRow, 3000);
 }
-function restartGame() {
-    score = 0;
-    scoreTable.textContent = score;
-    board = [];
-    gameBoard.innerHTML = '';
-    createBoard();
-    clearInterval(timer);
+
+function onClickTryAgain() {
+    startGameScreen.style.display = "block";
+    gameScreen.style.display = "none";
+    gameOverScreen.style.display ="none";
+    console.log("lefut");
+}
+
+function endGame(){
+    clearInterval(dropCellInterval);
     clearInterval(interval);
-    document.getElementById('time').innerHTML = '';
-    gameStarted = false;
+    clearInterval(timer);
+    clearInterval(levelInterval);
+    gameScreen.style.display ="none";
+    gameOverScreen.style.display = "block"
+    gameBoard.innerHTML = '';
+}
+function startGame(){
+    addRowTimer = 3000;
+    createBoard();
+    document.getElementById('time').innerHTML = `Az eltelt idő: 0 másodperc`;
+    document.getElementById('level').innerHTML = `Szint: ` + level;
+    startTime = Date.now();
+    elapsedTime = 0;
+    timer = setInterval(function() {
+        elapsedTime = Date.now() - startTime;
+        document.getElementById('time').innerHTML = `Az eltelt idő: ${Math.floor(elapsedTime / 1000)} másodperc`;
+    }, 1000);
+    level = 0;
+    startGameScreen.style.display = "none";
+    gameScreen.style.display = "block";
+    interval = setInterval(addRow, addRowTime());
+    dropCellInterval = setInterval(dropCells, 600);
+    levelInterval = setInterval(addRowTime, 20000 );
 }
 
+
+
+
+
+function addRowTime(){
+    if(addRowTimer > 1000){
+        addRowTimer -= 500;
+        console.log("Játék gyorsítva!");
+        level++;
+        console.log("Szint Növelve");
+        document.getElementById('level').innerHTML = `Szint: ` + level;
+    }
+    return addRowTimer;
+}
 
 scoreTable.textContent = score;
+levelText.textContent = level;
 function createBoard() {
+    board = [];
   for (let i = 0; i < numRows; i++) {
     let row = [];
     for (let j = 0; j < numCols; j++) {
@@ -62,7 +108,6 @@ function createBoard() {
   }
 }
 function handleClick(event) {
-    if (!gameStarted) return;
         let row = parseInt(event.target.dataset.row);
         let col = parseInt(event.target.dataset.col);
         let color = event.target.style.backgroundColor;
@@ -109,14 +154,12 @@ function getCellsToRemove(row, col, color, visited) {
 
 
 function addRow() {
-    if (!gameStarted) return;
   for (let i = 0; i < numCols; i++) {
     let cell = board[0][i];
+    console.log(cell.style.backgroundColor);
     if (cell.style.backgroundColor !== 'white') {
-        gameStarted = false;
-      alert('Game Over!');
-      clearInterval(interval);
-      clearInterval(timer);
+        console.log("bajok vannak");
+      endGame();
       return;
     }
   }
@@ -136,8 +179,7 @@ function addRow() {
   }
 }
 
-createBoard();
 gameBoard.addEventListener('click', handleClick);
+startButton.addEventListener('click', onClickStart);
+tryAgainButton.addEventListener('click', onClickTryAgain);
 
-let interval = setInterval(addRow, 6000);
-setInterval(dropCells, 600);
