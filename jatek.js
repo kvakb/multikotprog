@@ -13,7 +13,11 @@ let startGameScreen = document.getElementById("startGameScreen");
 let gameScreen = document.getElementById("gameScreen");
 let startButton = document.getElementById("startButton");
 let tryAgainButton = document.getElementById("tryAgainButton");
+let endScore = document.getElementById("endScore");
+let endTime = document.getElementById("endTime");
+let stat = document.getElementById("addstat");
 let level = 0;
+let name = "sajt";
 let startTime = Date.now();
 
 let interval;
@@ -28,6 +32,7 @@ let success  = new Audio("click2.mp3");
 gameOverScreen.style.display = "none";
 gameScreen.style.display = "none";
 startGameScreen.style.display = "block";
+
 
 function onClickStart() {
     startGame();
@@ -46,9 +51,14 @@ function endGame(){
     clearInterval(interval);
     clearInterval(timer);
     clearInterval(levelInterval);
+    document.getElementById('endScore').innerHTML = `Megszerzett pont: `+ score;
+    document.getElementById('endTime').innerHTML = `Játékidő: `+ Math.floor(elapsedTime / 1000);
+
     gameScreen.style.display ="none";
     gameOverScreen.style.display = "block"
     gameBoard.innerHTML = '';
+    saveResult(name, score);
+    showResults();
 }
 function startGame(){
     addRowTimer = 3000;
@@ -178,6 +188,48 @@ function addRow() {
     cell.style.backgroundColor = colors[colorIndex];
   }
 }
+
+function saveResult(name, score) {
+    // Létrehozunk egy objektumot a felhasználó nevével és pontszámával
+    let result = { name: name, score: score };
+
+    // Betöltjük a korábbi eredményeket a localstorage-ból
+    let results = JSON.parse(localStorage.getItem('results')) || [];
+
+    // Hozzáadjuk az új eredményt a tömbhöz
+    results.push(result);
+
+    // Elmentjük az eredményeket a localstorage-ba
+    localStorage.setItem('results', JSON.stringify(results));
+}
+
+function showResults() {
+    // Betöltjük az eredményeket a localstorage-ból
+    let results = JSON.parse(localStorage.getItem('results')) || [];
+
+    // Rendezzük az eredményeket pontszám alapján
+    results.sort(function(a, b) {
+        return b.score - a.score;
+    });
+
+    // Megjelenítjük az eredményeket egy HTML táblázatban
+    let table = document.getElementById('results-table');
+    let tbody = table.getElementsByTagName('tbody')[0];
+    tbody.innerHTML = '';
+
+    for (let i = 0; i < results.length; i++) {
+        let result = results[i];
+        let row = tbody.insertRow();
+        let nameCell = row.insertCell();
+        let scoreCell = row.insertCell();
+        nameCell.textContent = result.name;
+        scoreCell.textContent = result.score;
+    }
+}
+
+
+
+
 
 gameBoard.addEventListener('click', handleClick);
 startButton.addEventListener('click', onClickStart);
