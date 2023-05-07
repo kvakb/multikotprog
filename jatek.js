@@ -13,11 +13,18 @@ let startGameScreen = document.getElementById("startGameScreen");
 let gameScreen = document.getElementById("gameScreen");
 let startButton = document.getElementById("startButton");
 let tryAgainButton = document.getElementById("tryAgainButton");
+let toplistaScreen = document.getElementById("toplistaScreen");
+let toplistaButton = document.getElementById("toplistaButton");
 let endScore = document.getElementById("endScore");
 let endTime = document.getElementById("endTime");
 let stat = document.getElementById("addstat");
+let nameInput = document.querySelector("#name");
+let nameAlert = document.getElementById("nameAlert");
+let name;
 let level = 0;
-let name = "sajt";
+let backToHomebtn = document.getElementById("backToHome");
+let levelupText = document.getElementById("leveluptext");
+
 let startTime = Date.now();
 
 let interval;
@@ -28,22 +35,27 @@ let dropCellInterval;
 
 let success  = new Audio("click2.mp3");
 
-
+toplistaScreen.style.display = "none";
 gameOverScreen.style.display = "none";
 gameScreen.style.display = "none";
 startGameScreen.style.display = "block";
 
 
 function onClickStart() {
-    startGame();
-
+   if(nameInput.value !== ""){
+       startGame();
+   }else {
+       nameAlert.innerHTML = "Írj be valami szar nevet!";
+   }
 }
 
 function onClickTryAgain() {
+    levelupText.innerHTML = "";
+    score = 0;
+    toplistaScreen.style.display = "none";
     startGameScreen.style.display = "block";
     gameScreen.style.display = "none";
     gameOverScreen.style.display ="none";
-    console.log("lefut");
 }
 
 function endGame(){
@@ -52,7 +64,7 @@ function endGame(){
     clearInterval(timer);
     clearInterval(levelInterval);
     document.getElementById('endScore').innerHTML = `Megszerzett pont: `+ score;
-    document.getElementById('endTime').innerHTML = `Játékidő: `+ Math.floor(elapsedTime / 1000);
+    document.getElementById('endTime').innerHTML = `Játékidő: `+ Math.floor(elapsedTime / 1000) + ` másodperc`;
 
     gameScreen.style.display ="none";
     gameOverScreen.style.display = "block"
@@ -61,6 +73,10 @@ function endGame(){
     showResults();
 }
 function startGame(){
+    levelupText.innerHTML = "";
+    score = 0;
+    scoreTable.textContent = score;
+    name = nameInput.value;
     addRowTimer = 3000;
     createBoard();
     document.getElementById('time').innerHTML = `Az eltelt idő: 0 másodperc`;
@@ -81,8 +97,6 @@ function startGame(){
 
 
 
-
-
 function addRowTime(){
     if(addRowTimer > 1000){
         addRowTimer -= 500;
@@ -90,11 +104,17 @@ function addRowTime(){
         level++;
         console.log("Szint Növelve");
         document.getElementById('level').innerHTML = `Szint: ` + level;
+        if(addRowTimer < 2500){
+            levelupText.innerHTML = "LEVEL UP!";
+            setTimeout(function(){
+                levelupText.innerHTML = "";
+            }, 2000);
+        }
     }
     return addRowTimer;
 }
 
-scoreTable.textContent = score;
+scoreTable.textContent =score;
 levelText.textContent = level;
 function createBoard() {
     board = [];
@@ -117,6 +137,7 @@ function createBoard() {
     board.push(row);
   }
 }
+
 function handleClick(event) {
         let row = parseInt(event.target.dataset.row);
         let col = parseInt(event.target.dataset.col);
@@ -128,12 +149,13 @@ function handleClick(event) {
             cellsToRemove.forEach(cell => {
                 cell.style.backgroundColor = 'white';
                 score++;
-                scoreTable.textContent = score;
+                scoreTable.textContent = "Pontok: "+ score;
                 success.currentTime = 0;
                 success.play();
             });
         }
 }
+
 
 
 function dropCells() {
@@ -166,9 +188,7 @@ function getCellsToRemove(row, col, color, visited) {
 function addRow() {
   for (let i = 0; i < numCols; i++) {
     let cell = board[0][i];
-    console.log(cell.style.backgroundColor);
     if (cell.style.backgroundColor !== 'white') {
-        console.log("bajok vannak");
       endGame();
       return;
     }
@@ -225,6 +245,8 @@ function showResults() {
         nameCell.textContent = result.name;
         scoreCell.textContent = result.score;
     }
+
+    toplistaScreen.style.display = "block";
 }
 
 
@@ -234,4 +256,17 @@ function showResults() {
 gameBoard.addEventListener('click', handleClick);
 startButton.addEventListener('click', onClickStart);
 tryAgainButton.addEventListener('click', onClickTryAgain);
+
+function showToplistScreen() {
+
+    toplistaScreen.style.display = "block";
+    showResults();
+    startGameScreen.style.display = "none";
+    gameScreen.style.display = "none";
+    gameOverScreen.style.display ="none";
+}
+
+toplistaButton.addEventListener("click", showToplistScreen);
+backToHomebtn.addEventListener("click", onClickTryAgain);
+
 

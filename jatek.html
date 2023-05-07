@@ -4,6 +4,16 @@
   <title>Crash Down</title>
   <meta charset="UTF-8">
   <style>
+    #nameAlert{
+      color: red;
+    }
+    input[type="text"] {
+      padding: 12px 20px;
+      margin: 8px 0 30px;
+      box-sizing: border-box;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+    }
     #game-board {
       text-align: center;
       display: grid;
@@ -24,6 +34,8 @@
   <h2 id="level"></h2>
   <h2 id="time"></h2>
   <div id="game-board"></div>
+
+  <h1 id="leveluptext"></h1>
 </div>
 
 <div id="game-over">
@@ -34,8 +46,13 @@
 
 <div id="startGameScreen">
   <h1>CrashDown</h1>
-  <button id="startButton">Start</button>
+  <form>
+    <label for="name">Név:</label>
+    <input type="text" id="name">
+  </form>
+  <button type=submit id="startButton">Start</button>
   <button id="toplistaButton">Toplista</button>
+  <h2 id="nameAlert"></h2>
 </div>
 
 <div id="toplistaScreen">
@@ -50,6 +67,7 @@
     <tbody>
     </tbody>
   </table>
+  <button type=submit id="backToHome">Vissza</button>
 </div>
 
 
